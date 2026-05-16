@@ -4,8 +4,6 @@ services:
     container_name: hermes-work
     restart: unless-stopped
     command: gateway run
-    environment:
-      - HERMES_DASHBOARD=1
     expose:
       - "8642"
       - "9119"
@@ -23,8 +21,6 @@ services:
     container_name: hermes-personal
     restart: unless-stopped
     command: gateway run
-    environment:
-      - HERMES_DASHBOARD=1
     expose:
       - "8642"
       - "9119"
