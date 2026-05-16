@@ -17,8 +17,11 @@ services:
       - /mnt/hermes-work:/opt/data
     mem_limit: 2g
     cpus: 2.0
+    networks:
+      - coolify
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
       # Dashboard
       - "traefik.http.routers.hermes-work.rule=Host(`${HERMES_WORK_WEB_HOST}`)"
       - "traefik.http.routers.hermes-work.entrypoints=websecure"
@@ -56,8 +59,11 @@ services:
       - /mnt/hermes-personal:/opt/data
     mem_limit: 2g
     cpus: 2.0
+    networks:
+      - coolify
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
       # Dashboard
       - "traefik.http.routers.hermes-personal.rule=Host(`${HERMES_PERSONAL_WEB_HOST}`)"
       - "traefik.http.routers.hermes-personal.entrypoints=websecure"
@@ -76,3 +82,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+
+networks:
+  coolify:
+    external: true
