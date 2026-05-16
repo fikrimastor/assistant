@@ -20,11 +20,13 @@ services:
     labels:
       - "traefik.enable=true"
       # Dashboard
-      - "traefik.http.routers.hermes-work.middlewares=hermes-auth"
-      - "traefik.http.middlewares.hermes-auth.basicauth.users=`${HERMES_TRAEFIK_ACCESS}`"
       - "traefik.http.routers.hermes-work.rule=Host(`${HERMES_WORK_WEB_HOST}`)"
+      - "traefik.http.routers.hermes-work.entrypoints=websecure"
+      - "traefik.http.routers.hermes-work.tls=true"
+      - "traefik.http.routers.hermes-work.middlewares=hermes-work-auth"
+      - "traefik.http.middlewares.hermes-work-auth.basicauth.users=${HERMES_TRAEFIK_ACCESS}"
       - "traefik.http.services.hermes-work.loadbalancer.server.port=9119"
-      # MCP
+      # API / MCP
       - "traefik.http.routers.hermes-work-api.rule=Host(`${HERMES_WORK_API_HOST}`)"
       - "traefik.http.routers.hermes-work-api.entrypoints=websecure"
       - "traefik.http.routers.hermes-work-api.tls=true"
@@ -35,7 +37,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-
 
   hermes-personal:
     image: nousresearch/hermes-agent:latest
@@ -58,11 +59,13 @@ services:
     labels:
       - "traefik.enable=true"
       # Dashboard
-      - "traefik.http.routers.hermes-personal.middlewares=hermes-auth"
-      - "traefik.http.middlewares.hermes-auth.basicauth.users=`${HERMES_TRAEFIK_ACCESS}`"
       - "traefik.http.routers.hermes-personal.rule=Host(`${HERMES_PERSONAL_WEB_HOST}`)"
+      - "traefik.http.routers.hermes-personal.entrypoints=websecure"
+      - "traefik.http.routers.hermes-personal.tls=true"
+      - "traefik.http.routers.hermes-personal.middlewares=hermes-personal-auth"
+      - "traefik.http.middlewares.hermes-personal-auth.basicauth.users=${HERMES_TRAEFIK_ACCESS}"
       - "traefik.http.services.hermes-personal.loadbalancer.server.port=9119"
-      # MCP
+      # API / MCP
       - "traefik.http.routers.hermes-personal-api.rule=Host(`${HERMES_PERSONAL_API_HOST}`)"
       - "traefik.http.routers.hermes-personal-api.entrypoints=websecure"
       - "traefik.http.routers.hermes-personal-api.tls=true"
