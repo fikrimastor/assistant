@@ -29,6 +29,13 @@ services:
       - "traefik.http.routers.hermes-work-api.entrypoints=websecure"
       - "traefik.http.routers.hermes-work-api.tls=true"
       - "traefik.http.services.hermes-work-api.loadbalancer.server.port=8642"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8642/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
 
   hermes-personal:
     image: nousresearch/hermes-agent:latest
@@ -60,3 +67,9 @@ services:
       - "traefik.http.routers.hermes-personal-api.entrypoints=websecure"
       - "traefik.http.routers.hermes-personal-api.tls=true"
       - "traefik.http.services.hermes-personal-api.loadbalancer.server.port=8642"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8642/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
