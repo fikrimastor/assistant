@@ -19,6 +19,12 @@ services:
     cpus: 2.0
     labels:
       - "traefik.enable=true"
+      # Dashboard
+      - "traefik.http.routers.hermes-work.middlewares=hermes-auth"
+      - "traefik.http.middlewares.hermes-auth.basicauth.users=`${HERMES_TRAEFIK_ACCESS}`"
+      - "traefik.http.routers.hermes-work.rule=Host(`${HERMES_WORK_WEB_HOST}`)"
+      - "traefik.http.services.hermes-work.loadbalancer.server.port=9119"
+      # MCP
       - "traefik.http.routers.hermes-work-api.rule=Host(`${HERMES_WORK_API_HOST}`)"
       - "traefik.http.routers.hermes-work-api.entrypoints=websecure"
       - "traefik.http.routers.hermes-work-api.tls=true"
@@ -44,6 +50,12 @@ services:
     cpus: 2.0
     labels:
       - "traefik.enable=true"
+      # Dashboard
+      - "traefik.http.routers.hermes-personal.middlewares=hermes-auth"
+      - "traefik.http.middlewares.hermes-auth.basicauth.users=`${HERMES_TRAEFIK_ACCESS}`"
+      - "traefik.http.routers.hermes-personal.rule=Host(`${HERMES_PERSONAL_WEB_HOST}`)"
+      - "traefik.http.services.hermes-personal.loadbalancer.server.port=9119"
+      # MCP
       - "traefik.http.routers.hermes-personal-api.rule=Host(`${HERMES_PERSONAL_API_HOST}`)"
       - "traefik.http.routers.hermes-personal-api.entrypoints=websecure"
       - "traefik.http.routers.hermes-personal-api.tls=true"
